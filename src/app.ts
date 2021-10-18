@@ -1,26 +1,20 @@
-import {generateRandomId} from './util'
+import {generateRandomId, Component} from './util'
 
-
-/**Static Properties */
-// class App {
-//   static id = 'app'
-// }
-
-interface Component {
-  onInit(el: HTMLElement | null):void
-}
-
-class App implements Component {
-  private id: string
-  constructor() {
-    this.id = 'app'
-  }
+const random = (a = 1, b = 0) => {
+  const lower = Math.min(a, b);
+  const upper = Math.max(a, b);
+  return lower + Math.random() * (upper - lower);
+};
+@Component({
+  id: 'app',
+})
+class App {
     onInit(el: HTMLElement | null ): void {
     setInterval(() => {
       if(el) {
         el.innerHTML = generateRandomId({
           symbol: '#',
-          lengthString: 7
+          lengthString: random(7, 10)
         })
       }
     }, 1000);
@@ -29,8 +23,8 @@ class App implements Component {
  
 
 function main(ComponentClass) {
+  let component = document.getElementById(ComponentClass.id)
   const componentClass = new ComponentClass()
-  let component = document.getElementById(componentClass.id)
   componentClass.onInit(component) 
 }
 
